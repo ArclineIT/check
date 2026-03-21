@@ -31,3 +31,7 @@ arcline-check example.com --watch 30
 5. Fetches HTTP headers and inspects for CDN fingerprints (CF-Ray, X-Served-By, Via, X-Cache)
 
 See [todo.md](todo.md) for the full task list and output format spec.
+
+## License
+
+MIT — see [LICENSE](LICENSE).

@@ -1,0 +1,8 @@
+<%# locals: (domain: nil) %>
+<%= form_with url: check_path, method: :get, class: "form form--inline" do |form| %>
+  <div class="field">
+    <%= form.label :domain, "Domain" %>
+    <%= form.text_field :domain, value: domain, required: true, placeholder: "example.com", autocapitalize: "none", spellcheck: false, autofocus: domain.nil? %>
+  </div>
+  <%= form.submit "Check", name: nil, class: "btn btn--primary" %>
+<% end %>

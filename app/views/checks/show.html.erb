@@ -1,0 +1,65 @@
+<% content_for :title, "#{@domain} — Arcline Check" %>
+<% if @watch %><% content_for :head do %><meta http-equiv="refresh" content="<%= @watch %>"><% end %><% end %>
+
+<section class="page-header">
+  <div class="container">
+    <p class="eyebrow"><%= link_to "Check", root_path %></p>
+    <h1 class="page-header__title page-header__title--article"><%= @domain %></h1>
+    <p class="lead">
+      <% if !@report.resolved? %>
+        This domain could not be checked.
+      <% elsif @report.self_hosted? %>
+        No CDN or cloud provider found in front of this domain.
+      <% else %>
+        This domain is routed through a CDN or hosted on a cloud provider.
+      <% end %>
+    </p>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="dash">
+      <% if @report.resolved? %>
+        <div class="panel">
+          <div class="panel__body">
+            <% [ [ "Resolved", @report.address ], [ "Reverse DNS", @report.rdns || "none" ],
+                 [ "ASN", @report.network ? "AS#{@report.network.asn}" : "unknown" ], [ "Organisation", @report.network&.org || "unknown" ],
+                 [ "All addresses", @report.addresses.join(", ") ] ].each do |label, value| %>
+              <div class="status-row">
+                <span class="status-row__label"><%= label %></span><span class="status-row__dots" aria-hidden="true"></span>
+                <span class="status-row__value status-row__value--wrap"><%= value %></span>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="panel">
+        <ul class="findings">
+          <% @report.findings.each do |finding| %>
+            <li class="findings__item">
+              <span class="status-badge status-badge--<%= finding_class(finding.status) %>"><%= finding.status %></span>
+              <span><%= finding.message %></span>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+
+      <p class="cell-note">
+        Checked <%= @report.checked_at.utc.strftime("%Y-%m-%d %H:%M:%S UTC") %>.
+        <% if @watch %>
+          Re-checking every <%= @watch %> seconds. <%= link_to "Stop", check_path(params: { domain: @domain }) %>
+        <% else %>
+          <%= link_to "Re-check every 30 seconds", check_path(params: { domain: @domain, watch: 30 }) %>, useful during a DNS migration.
+        <% end %>
+        <%= link_to "JSON", check_path(format: :json, params: { domain: @domain }) %> · <%= link_to "Text", check_path(format: :text, params: { domain: @domain }) %>
+      </p>
+
+      <section class="dash-section">
+        <h2 class="dash-section__title">check another</h2>
+        <%= render "form", domain: @domain %>
+      </section>
+    </div>
+  </div>
+</section>

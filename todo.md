@@ -4,25 +4,24 @@ Checks whether a domain is truly self-hosted or routing through a CDN/cloud
 provider (Cloudflare, Fastly, AWS CloudFront, etc.). Core to the Arcline brand.
 
 ## Stack
-- Language: Go
-- Distribution: single static binary (linux/amd64, darwin/arm64, windows/amd64)
-- No runtime dependencies
+- Ruby on Rails 8.1, no database
+- Web page, JSON and text endpoints, and a rake task for the terminal
 
 ## Features
-- [ ] Resolve domain → IP
-- [ ] Reverse DNS lookup (PTR record)
-- [ ] ASN / org lookup via ip-api.com or ipinfo.io (self-hosted fallback)
-- [ ] Detect known CDN/cloud CIDR ranges (Cloudflare, Fastly, AWS, GCP, Azure)
-- [ ] HTTP header inspection (CF-Ray, X-Served-By, Via, Server, X-Cache)
-- [ ] Output: clean terminal report (color-coded pass/fail)
-- [ ] Output: --json flag for scripting
-- [ ] --watch flag: re-check every N seconds (useful during DNS migration)
+- [x] Resolve domain → IP
+- [x] Reverse DNS lookup (PTR record)
+- [x] ASN / org lookup (Team Cymru over DNS, no API key)
+- [x] Detect known CDN/cloud CIDR ranges (Cloudflare, Fastly, CloudFront, AWS, GCP; Azure and Akamai by network)
+- [x] HTTP header inspection (CF-Ray, X-Served-By, Via, Server, X-Cache)
+- [x] Output: web report and terminal report (color-coded)
+- [x] Output: JSON (`/check.json`, `FORMAT=json`)
+- [x] Watch: re-check every N seconds (`&watch=30`)
 
-## CLI interface
+## Interface
 ```
-arcline-check example.com
-arcline-check example.com --json
-arcline-check example.com --watch 30
+bin/rails 'check:domain[example.com]'
+FORMAT=json bin/rails 'check:domain[example.com]'
+GET /check?domain=example.com          (also .json and .txt, and &watch=30)
 ```
 
 ## Output format
@@ -41,13 +40,13 @@ $ arcline-check example.com
 ```
 
 ## Tasks
-- [ ] Project scaffold (go mod init, cmd/, internal/)
-- [ ] DNS resolution + PTR lookup
-- [ ] ASN lookup (HTTP call to free API, cache result)
-- [ ] CDN CIDR list (embed JSON, update via Makefile)
-- [ ] HTTP header fetch + CDN header detection
-- [ ] Report renderer (color terminal + JSON)
-- [ ] --watch mode
-- [ ] Cross-compile Makefile targets
-- [ ] README with usage examples
-- [ ] GitLab CI: build + release binaries on tag
+- [x] Rails app scaffold
+- [x] DNS resolution + PTR lookup
+- [x] ASN lookup
+- [x] CDN CIDR list (`config/cdn_ranges.json`, refreshed with `bin/rails cdn:update`)
+- [x] HTTP header fetch + CDN header detection
+- [x] Report renderer (web, text, JSON)
+- [x] Watch mode
+- [x] README with usage examples
+- [ ] Publish Azure's ranges (the download address changes weekly)
+- [ ] Refresh the range file on a schedule in CI

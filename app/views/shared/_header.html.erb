@@ -1,0 +1,16 @@
+<header class="site-header">
+  <div class="container site-header__inner">
+    <%= link_to root_path, class: "logo", aria: { label: "Arcline Check home" } do %>
+      <%= render "shared/logo", size: 28 %>
+      <span class="logo__word">Arcline</span>
+    <% end %>
+    <span class="site-header__tag">Check</span>
+
+    <nav class="nav" aria-label="Main">
+      <button class="theme-toggle" type="button" data-controller="theme" data-action="theme#toggle">
+        <%= icon :contrast, size: 18 %>
+        <span class="theme-toggle__label">Switch theme</span>
+      </button>
+    </nav>
+  </div>
+</header>

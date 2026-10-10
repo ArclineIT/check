@@ -1,0 +1,32 @@
+<% content_for :title, "Arcline Check — is it really self-hosted?" %>
+
+<section class="page-header">
+  <div class="container">
+    <p class="eyebrow">Check</p>
+    <h1 class="page-header__title">Is it really self-hosted?</h1>
+    <p class="lead">Enter a domain to see whether it is served from its own host, or routed through a CDN or a cloud provider such as Cloudflare, Fastly or AWS.</p>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="container">
+    <div class="dash">
+      <%= render "form" %>
+
+      <section class="dash-section">
+        <h2 class="dash-section__title">how it works</h2>
+        <div class="panel">
+          <div class="panel__body prose">
+            <ol>
+              <li>Resolves the domain to its addresses.</li>
+              <li>Looks up reverse DNS and the network (ASN) that announces the address.</li>
+              <li>Compares the address with the published ranges of Cloudflare, Fastly, AWS CloudFront, AWS and Google Cloud.</li>
+              <li>Fetches the home page and inspects the response headers for CDN fingerprints such as <code>CF-Ray</code>, <code>X-Served-By</code>, <code>Via</code> and <code>X-Cache</code>.</li>
+            </ol>
+            <p>Add <code>.json</code> or <code>.txt</code> for scripting: <code>/check.json?domain=example.com</code>.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>

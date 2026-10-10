@@ -1,0 +1,28 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "SSL Verification Bypass",
+      "warning_code": 71,
+      "fingerprint": "846d76344ef1f19425927862d1a317d381ebccbab1e564e610a7e09893589aa5",
+      "check_name": "SSLVerify",
+      "message": "SSL certificate verification was bypassed",
+      "file": "app/services/header_fetch.rb",
+      "line": 31,
+      "link": "https://brakemanscanner.org/docs/warning_types/ssl_verification_bypass/",
+      "code": "Net::HTTP.new(host, port).verify_mode = OpenSSL::SSL::VERIFY_NONE",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "HeaderFetch",
+        "method": "request"
+      },
+      "user_input": null,
+      "confidence": "High",
+      "cwe_id": [
+        295
+      ],
+      "note": "Intentional: only response headers are read and nothing sensitive is sent, and a site with a broken certificate should still be reportable."
+    }
+  ],
+  "brakeman_version": "8.1.0"
+}
